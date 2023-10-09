@@ -1,0 +1,14 @@
+section .text		;iniciando uma sessão de texto/mensagem (declaração e alocação de memória)
+	global _start	;coleção de arquivos binários declarados para serem utilizado
+_start:			;informando o ponto de entrada do vinculador (início execução)
+mov edx, len		;comprimento da mensagem
+mov ecx, msg		;mensagem para escrever
+mov ebx, 1		;descritor do arquivo (saída padrão) início mensagem
+mov eax, 4		:número de chamada do sistema (gravação do sistema)
+int 0x80		;chamada kernel
+mov eax, 1		;número de chamada do sistema (saída do sistema)
+int 0x80		;chamada kernel
+
+section .data		;iniciando sessão de dados (exibição)
+msg db 'Hello, world!', 0xa	;mensagem associada/atribuída
+len equ $ -msg			;exibição/execuçãosec da mensagem
