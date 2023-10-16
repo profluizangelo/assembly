@@ -2,11 +2,12 @@
 ;Instruções aritméticas em Assembly, converesão de ASCII para DEC
 ;Versão longa do código
 ;Author: Luiz Angelo, FEAP Computação [adaptado, original Gil Mendes]
-SYS_EXIT    equ 1
-SYS_READ    equ 3
-SYS_WRITE   equ 4
-STDIN       equ 0
-STDOUT      equ 1
+SYS_EXIT    equ 1       ;alias para saída do sistema (programa)
+SYS_READ    equ 3       ;alias para recebimento de valor (operacao)
+SYS_WRITE   equ 4       ;alias para leitura de conteúdo e impressão (variável)
+STDIN       equ 0       ;alias para entrada/atribuição de valor (variavel)
+STDOUT      equ 1       ;alias para saída/exibição de valor (variavel)
+SYS_OPE     equ 2       ;alias para identificação de variável a ser operada/computada
 
 section .data           ;seção de dados / interação
 
@@ -21,9 +22,9 @@ section .data           ;seção de dados / interação
 
 section .bss            ;seção de declaração de variáveis a serem processadas
 
-    num1 resb 2
-    num2 resb 2
-    res  resb 1
+    num1 resb SYS_OPE
+    num2 resb SYS_OPE
+    res  resb STDOUT
 
 section .text           ;seção de execução
     global _start
@@ -41,7 +42,7 @@ _start:                 ;iniciando programação
     mov eax, SYS_READ
     mov ebx, STDIN
     mov ecx, num1
-    mov edx, 2
+    mov edx, SYS_OPE
     int 0x80
 
     ; imprime a string msg2
@@ -89,3 +90,5 @@ _start:                 ;iniciando programação
     mov ecx, res
     mov edx, 2
     int 0x80
+    
+;NOTA DO AUTOR: programa com segmentation fault (core dump). Em revisão 16/10/2023
